@@ -15,9 +15,9 @@ def batch_data(data, batch_size, seed):
     # randomly shuffle data
     np.random.seed(seed)
     rng_state = np.random.get_state()
-    np.random.shuffle(data_x)
+    np.random.shuffle(list(data_x)) #we must change this line of the code
     np.random.set_state(rng_state)
-    np.random.shuffle(data_y)
+    np.random.shuffle(list(data_y))
 
     # loop through mini-batches
     for i in range(0, len(data_x), batch_size):

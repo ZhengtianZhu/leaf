@@ -15,7 +15,7 @@ COLUMN_NAMES = [
     CLIENT_ID_KEY, NUM_ROUND_KEY, 'hierarchy', NUM_SAMPLES_KEY, 'set']
 
 
-def print_metrics(
+def print_metrics( #wrong file name,but actually all the file name is the same.
         round_number,
         client_ids,
         metrics,
@@ -50,6 +50,7 @@ def print_metrics(
     os.makedirs(metrics_dir, exist_ok=True)
     path = os.path.join(metrics_dir, '{}.csv'.format(metrics_name))
     
+    #the head of column
     columns = COLUMN_NAMES + get_metrics_names(metrics)
     client_data = pd.DataFrame(columns=columns)
     for i, c_id in enumerate(client_ids):

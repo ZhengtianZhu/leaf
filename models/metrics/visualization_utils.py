@@ -10,7 +10,7 @@ import pandas as pd
 import sys
 
 from decimal import Decimal
-
+#不同目录下的文件调用
 models_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(models_dir)
 
@@ -26,9 +26,12 @@ from baseline_constants import (
 
 def load_data(stat_metrics_file='stat_metrics.csv', sys_metrics_file='sys_metrics.csv'):
     """Loads the data from the given stat_metric and sys_metric files."""
-    stat_metrics = pd.read_csv(stat_metrics_file) if stat_metrics_file else None
+    stat_metrics = pd.read_csv(stat_metrics_file,header=0) if stat_metrics_file else None
     sys_metrics = pd.read_csv(sys_metrics_file) if sys_metrics_file else None
-
+    #labels = list(df.columns.values)
+    stat_labels=list(stat_metrics.columns.values)
+    # Zheng wants to take a look.
+    stat_metrics.head()
     if stat_metrics is not None:
         stat_metrics.sort_values(by=NUM_ROUND_KEY, inplace=True)
     if sys_metrics is not None:
@@ -126,13 +129,14 @@ def plot_accuracy_vs_round_number_per_client(
         max_name_len: Maximum length for a client's id.
         kwargs: Arguments to be passed to _set_plot_properties."""
     # Plot accuracies per client.
-    clients = stat_metrics[CLIENT_ID_KEY].unique()[:max_num_clients]
-    cmap = plt.get_cmap('jet_r')
+    clients = stat_metrics[CLIENT_ID_KEY].unique()[:max_num_clients]#np.unique;是由小到大排列，还有return_counts = true,是用于统计各个元素出现的次数，
+    cmap = plt.get_cmap('jet_r') #https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.get_cmap.html
     plt.figure(figsize=figsize)
 
+    #a little confused with the logics
     for i, c in enumerate(clients):
         color = cmap(float(i) / len(clients))
-        c_accuracies = stat_metrics.loc[stat_metrics[CLIENT_ID_KEY] == c]
+        c_accuracies = stat_metrics.loc[stat_metrics[CLIENT_ID_KEY] == c] # locate the data
         plt.plot(c_accuracies[NUM_ROUND_KEY], c_accuracies[ACCURACY_KEY], color=color)
 
     plt.suptitle('Accuracy vs Round Number (Per Client)', fontsize=title_fontsize)

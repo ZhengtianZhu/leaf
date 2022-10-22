@@ -1,5 +1,5 @@
 """Configuration file for common models/experiments"""
-
+#事先定义好了一堆变量
 MAIN_PARAMS = { 
     'sent140': {
         'small': (10, 2, 2),

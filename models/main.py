@@ -34,10 +34,12 @@ def main():
         print('Please specify a valid dataset and a valid model.')
     model_path = '%s.%s' % (args.dataset, args.model)
     
+    #input the parameters.https://zhuanlan.zhihu.com/p/28871131
     print('############################## %s ##############################' % model_path)
     mod = importlib.import_module(model_path)
     ClientModel = getattr(mod, 'ClientModel')
-
+    
+    #num_rounds,eval_every are all the parameters that require some written inputs
     tup = MAIN_PARAMS[args.dataset][args.t]
     num_rounds = args.num_rounds if args.num_rounds != -1 else tup[0]
     eval_every = args.eval_every if args.eval_every != -1 else tup[1]
@@ -46,7 +48,7 @@ def main():
     # Suppress tf warnings
     tf.logging.set_verbosity(tf.logging.WARN)
 
-    # Create 2 models
+    # Create 2 models; how does the programme function?- the model has been limited to those constants.
     model_params = MODEL_PARAMS[model_path]
     if args.lr != -1:
         model_params_list = list(model_params)
@@ -70,8 +72,10 @@ def main():
     stat_writer_fn = get_stat_writer_function(client_ids, client_groups, client_num_samples, args)
     sys_writer_fn = get_sys_writer_function(args)
     print_stats(0, server, clients, client_num_samples, args, stat_writer_fn, args.use_val_set)
-
-    # Simulate training
+    
+    #actually, we can add one sentence to the head of .csv file
+    
+    # Simulate training https://zhuanlan.zhihu.com/p/164659496#:~:text=%E5%85%B8%E5%9E%8B%E8%BF%87%E7%A8%8B
     for i in range(num_rounds):
         print('--- Round %d of %d: Training %d Clients ---' % (i + 1, num_rounds, clients_per_round))
 
@@ -81,7 +85,7 @@ def main():
 
         # Simulate server model training on selected clients' data
         sys_metrics = server.train_model(num_epochs=args.num_epochs, batch_size=args.batch_size, minibatch=args.minibatch)
-        sys_writer_fn(i + 1, c_ids, sys_metrics, c_groups, c_num_samples)
+        sys_writer_fn(i + 1, c_ids, sys_metrics, c_groups, c_num_samples)#after the sys operating, the sys actually writes all the parameters into ; this is the key
         
         # Update server model
         server.update_model()
@@ -133,16 +137,18 @@ def get_stat_writer_function(ids, groups, num_samples, args):
 
     def writer_fn(num_round, metrics, partition):
         metrics_writer.print_metrics(
-            num_round, ids, metrics, groups, num_samples, partition, args.metrics_dir, '{}_{}'.format(args.metrics_name, 'stat'))
+            num_round, ids, metrics, groups, num_samples, partition, args.metrics_dir, '{}_{}'.format( 'stat',args.metrics_name))
+            #num_round, ids, metrics, groups, num_samples, partition, args.metrics_dir, '{}_{}'.format(args.metrics_name, 'stat'))
 
     return writer_fn
 
 
-def get_sys_writer_function(args):
+def get_sys_writer_function(args):#sys, no column title
 
     def writer_fn(num_round, ids, metrics, groups, num_samples):
         metrics_writer.print_metrics(
-            num_round, ids, metrics, groups, num_samples, 'train', args.metrics_dir, '{}_{}'.format(args.metrics_name, 'sys'))
+            num_round, ids, metrics, groups, num_samples, 'train', args.metrics_dir, '{}_{}'.format('sys',args.metrics_name))
+            #num_round, ids, metrics, groups, num_samples, 'train', args.metrics_dir, '{}_{}'.format(args.metrics_name, 'sys'))
 
     return writer_fn
 
