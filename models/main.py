@@ -103,6 +103,7 @@ def main():
 
     # Close models
     server.close_model()
+    
 
 def online(clients):
     """We assume all users are always online."""

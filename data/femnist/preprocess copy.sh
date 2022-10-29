@@ -3,7 +3,7 @@
 # download data and convert to .json format
 
 #I need to attack the downloading parts.
-if [ -d "data/all_data" ] || [  "$(ls -A data/all_data)" ]; then
+if [ ! -d "data/all_data" ] || [ ! "$(ls -A data/all_data)" ]; then
     cd preprocess
     ./data_to_json.sh
     cd ..
