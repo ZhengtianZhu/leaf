@@ -6,7 +6,7 @@ only process the shape of data (224, 224, 3).
 
 ![image](https://github.com/ZhengtianZhu/leaf/assets/24854133/6754042d-7902-4dd5-a360-9cd6e805991c)
 
-
+I've also added my research experience of weekly_report to this repository.
 
 ## Resources
 
