@@ -1,5 +1,13 @@
 # LEAF: A Benchmark for Federated Settings
 
+## The problem I met when I perform a backdoor attack on FL
+ the shape of the training data of the client in the benchmark is (1, 784) while the SSBA can 
+only process the shape of data (224, 224, 3).
+
+![image](https://github.com/ZhengtianZhu/leaf/assets/24854133/6754042d-7902-4dd5-a360-9cd6e805991c)
+
+
+
 ## Resources
 
   * **Homepage:** [leaf.cmu.edu](https://leaf.cmu.edu)
